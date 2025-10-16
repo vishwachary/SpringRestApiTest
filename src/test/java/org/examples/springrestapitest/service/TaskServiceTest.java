@@ -2,6 +2,7 @@ package org.examples.springrestapitest.service;
 
 import org.examples.springrestapitest.dto.TaskDto;
 import org.examples.springrestapitest.entity.Task;
+import org.examples.springrestapitest.exception.TaskNotFoundException;
 import org.examples.springrestapitest.repository.TaskRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -127,5 +128,16 @@ class TaskServiceTest {
         ));
     }
 
+    @Test
+    void getTaskById_shouldThrowException_whenTaskNotFound() {
+        // given
+        long id = 99L;
+        when(taskRepository.findById(id)).thenReturn(Optional.empty());
 
+        // when + then
+        assertThrows(TaskNotFoundException.class, () -> taskService.getTaskById(id));
+
+        // verify repository was called
+        verify(taskRepository, times(1)).findById(id);
+    }
 }

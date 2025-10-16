@@ -24,7 +24,7 @@ public class TaskController {
         return ResponseEntity.ok(allTasks);
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/tasks/search")
     ResponseEntity<List<TaskDto>> getAllTasksByName(@RequestParam String name)
     {
         List<TaskDto> allTasks = taskService.getTaskByName(name);
